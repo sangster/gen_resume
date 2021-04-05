@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+require 'gen_resume'
+
+cli = GenResume::CommandLine.new
+
+if cli.help?
+  cli.print_help
+else
+  ch_conv = GenResume.character_converters[cli.mode]
+  model = GenResume::XmlModel.new(cli.xml_path, ch_conv)
+  env = GenResume::ErbEnvironment.new(cli.erb_path, model.resume)
+  puts env.render
+end
